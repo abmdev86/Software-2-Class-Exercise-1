@@ -1,12 +1,19 @@
-﻿using PetStore;
+﻿using Microsoft.Extensions.DependencyInjection;
+using PetStore;
 using PetStore.Logic;
 using PetStore.Models;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-
 var productLogic = new ProductLogic();
+static IServiceProvider CreateServiceCollection()
+{
+    // required Microsoft.Extensions.DependencyInjection  for ServiceCollection to work.
+    return new ServiceCollection().AddTransient<ProductLogic>().BuildServiceProvider();
+}
 
 string userInput = DisplayMenuAndGetInput();
+IServiceProvider services = CreateServiceCollection();
+services.GetService<IProductLogic>();
 
 while (userInput.ToLower() != "exit")
 {
